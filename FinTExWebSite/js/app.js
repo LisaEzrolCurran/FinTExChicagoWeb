@@ -39,12 +39,37 @@
 			templateUrl: "./js/templates/fintechChicagoTmpl.html"
 			// controller: "fintechChicagoCtrl"
 		})
+
+
+
 		//Profile1
 		.state("profile1", {
 		    url: "/profile1",
 		    templateUrl: "./js/templates/profile1Tmpl.html"
 		    // controller: "fintechChicagoCtrl"
 		})
+            //Dough
+		.state("DoughProfile", {
+		    url: "/DoughProfile",
+		    templateUrl: "./js/templates/DoughProfileTmpl.html"
+		    // controller: "fintechChicagoCtrl"
+		})
+
+            //Profile1
+		.state("SpotProfile", {
+		    url: "/SpotProfile",
+		    templateUrl: "./js/templates/SpotProfileTmpl.html"
+		    // controller: "fintechChicagoCtrl"
+		})
+
+  		//BarchartProfile
+		.state("BarchartProfile", {
+		    url: "/BarchartProfile",
+		    templateUrl: "./js/templates/BarchartProfileTmpl.html"
+		    // controller: "fintechChicagoCtrl"
+		})
+
+
 
 		//Profile2
 		.state("profile2", {
@@ -85,7 +110,7 @@
 		//Profile1
 		.state("profile8", {
 		    url: "/profile8",
-		    templateUrl: "./js/templates/profile1Tmp8.html"
+		    templateUrl: "./js/templates/profile8Tmpl.html"
 		    // controller: "fintechChicagoCtrl"
 		})
 		//Profile1
@@ -106,6 +131,14 @@
 		    templateUrl: "./js/templates/pressrelease1Tmpl.html"
 		    // controller: "fintechChicagoCtrl"
 		})
+
+//FinTExSixThirtyPressRelease
+		.state("FinTExSixThirtyPressRelease", {
+		    url: "/FinTExSixThirtyPressRelease",
+		    templateUrl: "./js/templates/FinTExSixThirtyPressReleaseTmpl.html"
+		    // controller: "fintechChicagoCtrl"
+		})
+
 
 
 		//EVENTS
