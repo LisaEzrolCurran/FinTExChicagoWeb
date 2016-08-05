@@ -157,11 +157,1188 @@
     </nav>
 
     <!-- UI VIEW -->
-    <ui-view></ui-view>
+    <a id="downloadAnchorElem" style="display:none"></a>
+<style>
+  #map { height: 800px; width: 800px; margin: 0 auto; }
+  #categories { float: left; list-style-type: none; }
+</style>
+<div class="map-container">
+  <p>
+    <a href="#" class="select-all">Select All</a>
+  </p>
+  <ul id="categories"></ul>
+  <div id="map"></div>
+</div>
+<script src="./libs/jquery.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA02W_u8TMd2K6o3yhJi-rF1R0CP2RS2Mg&callback=init" async defer></script>
+<script src="libs/markerclusterer.js"></script>
+<script>
+var map,
+    markers = [],
+    infoWindows = [];
+function init(){
+  var companies = [{"Company Name":"Academy Securities","Street Address":"550 W Van Buren St Suite 1410","City":"Chicago","Zip":60607,"State":"IL","Category":"Capital Markets","lat":41.8769945,"lng":-87.64146240000002},{"Company Name":"Accenture","Street Address":"161 N Clark St","City":"Chicago","Zip":60601,"State":"IL","Category":"Consulting","lat":41.8847775,"lng":-87.6306113},{"Company Name":"Activ Financial","Street Address":"125 South Wacker Drive, Suite 2325","City":"Chicago","Zip":60606,"State":"IL","Category":"Data & Analytics","lat":41.8797204,"lng":-87.63638650000001},{"Company Name":"Advantage Futures","Street Address":"231 S La salle St Suite 1400","City":"Chicago","Zip":60604,"State":"IL","Category":"Capital Markets","lat":41.8784502,"lng":-87.63169370000003},{"Company Name":"Aegea Capital","Street Address":"233 South Wacker Drive, Suite 8625","City":"Chicago","Zip":60606,"State":"IL","Category":"Capital Markets","lat":41.8788864,"lng":-87.63588249999998},{"Company Name":"Algo Fast","Street Address":"333 N Canal Street, #2205","City":"Chicago","Zip":60606,"State":"IL","Category":"Technology","lat":41.8874849,"lng":-87.63950990000001},{"Company Name":"Anderson Pacific","Street Address":"NBC Tower, 455 N Cityfront Plaza Dr #2750","City":"Chicago","Zip":60611,"State":"IL","Category":"Investor"},{"Company Name":"Anova Technologies","Street Address":"205 N Michigan Ave #4230","City":"Chicago","Zip":60601,"State":"IL","Category":"Data & Analytics","lat":41.8859674,"lng":-87.6235552},{"Company Name":"Arrow Payments","Street Address":"935 W Chestnut St","City":"Chicago","Zip":60642,"State":"IL","Category":"Payments","lat":41.8981178,"lng":-87.65138869999998},{"Company Name":"Ashland Partners and Company LLP","Street Address":"33 North LaSalle Street Suite 2330","City":"Chicago","Zip":60602,"State":"IL","Category":"Service Provider","lat":41.882827,"lng":-87.63204689999998},{"Company Name":"Avant Credit","Street Address":"640 N. LaSalle #555, Chicago","City":"Chicago","Zip":60606,"State":"IL","Category":"Lending","lat":41.8936241,"lng":-87.63328960000001},{"Company Name":"Aviva Investors of America","Street Address":"225 W Upper Wacker Dr","City":"Chicago","Zip":60606,"State":"IL","Category":"Investment Management","lat":41.8862872,"lng":-87.63507170000003},{"Company Name":"Backstop Solutions Group","Street Address":"Willis Tower, 233 S Wacker Dr #3960","City":"Chicago","Zip":60606,"State":"IL","Category":"Consulting"},{"Company Name":"Baird Private Equity","Street Address":"227 West Monroe Street\nSuite 1900","City":"Chicago","Zip":60606,"State":"IL","Category":"Investor","lat":41.88028540000001,"lng":-87.6347111},{"Company Name":"Bank of America","Street Address":"231 South La Salle Street","City":"Chicago","Zip":60604,"State":"IL","Category":"Banking","lat":41.8784502,"lng":-87.63169370000003},{"Company Name":"Barchart","Street Address":"209 W Jackson Blvd #200","City":"Chicago","Zip":60606,"State":"IL","Category":"Data & Analytics"},{"Company Name":"BOE Group","Street Address":"120 N. LaSalle Street, Suite1500","City":"Chicago","Zip":60602,"State":"IL","Category":"Capital Markets"},{"Company Name":"Braintree","Street Address":"Suite 800, Merchandise Mart Properties, Inc., 222 W Merchandise Mart Plaza","City":"Chicago","Zip":60654,"State":"IL","Category":"Payments","lat":41.8885198,"lng":-87.63544819999998},{"Company Name":"Brown Brothers Harriman","Street Address":"150 S Wacker Dr # 3250","City":"Chicago","Zip":60606,"State":"IL","Category":"Banking"},{"Company Name":"Caherciveen Partners","Street Address":"500 West Madison St # 1610","City":"Chicago","Zip":60661,"State":"IL","Category":"Capital Markets"},{"Company Name":"Card Connect","Street Address":"317 N. Racine Avenue","City":"Chicago","Zip":60607,"State":"IL","Category":"Payments"},{"Company Name":"Center for Financial Services Innovation","Street Address":"21 N Clark St #1950","City":"Chicago","Zip":60602,"State":"IL","Category":"Organization","lat":41.882563,"lng":-87.6309013},{"Company Name":"Chicago Life Settlements","Street Address":"141 W Jackson Blvd #1404","City":"Chicago","Zip":60604,"State":"IL","Category":"Investor"},{"Company Name":"Chicago Stock Exchange","Street Address":"One Financial Place, 440 S La salle St","City":"Chicago","Zip":60605,"State":"IL","Category":"Capital Markets"},{"Company Name":"Chicago Ventures","Street Address":"Merchandise Mart Properties, Inc., 222 W Merchandise Mart Plaza #1212","City":"Chicago","Zip":60654,"State":"IL","Category":"Investor","lat":41.8879565,"lng":-87.6352435},{"Company Name":"Club Hill Capital","Street Address":"155 N. Wacker Drive Suite 4250","City":"Chicago","Zip":60606,"State":"IL","Category":"Lending"},{"Company Name":"CME Group","Street Address":"20 S. Wacker Drive","City":"Chicago","Zip":60606,"State":"IL","Category":"Capital Markets"},{"Company Name":"Compensation and Benefits Solutions","Street Address":"2516 Waukegan Road, Suite 302","City":"Glenview","Zip":60025,"State":"IL","Category":"Consulting","lat":42.0998957,"lng":-87.80101669999999},{"Company Name":"Connamara Systems, LLC","Street Address":"200 W Jackson Blvd #1950","City":"Chicago","Zip":60606,"State":"IL","Category":"Technology"},{"Company Name":"Connect Lending","Street Address":"123 Danada Square East Suite 133","City":"Wheaton","Zip":60189,"State":"IL","Category":"Lending"},{"Company Name":"CQG","Street Address":"311 Lower Wacker Dr # 6100","City":"Chicago","Zip":60606,"State":"IL","Category":"Data & Analytics"},{"Company Name":"Cumulus Funding","Street Address":"325 West Huron Chicago","City":"Chicago","Zip":60654,"State":"IL","Category":"Lending","lat":41.8945098,"lng":-87.63666860000001},{"Company Name":"David Widerhorn Consulting, LLC","Street Address":"141 W Jackson Blvd, Suite 1692","City":"Chicago","Zip":60604,"State":"IL","Category":"Data & Analytics"},{"Company Name":"Discover","Street Address":"350 N Orleans St Suite 660","City":"Chicago","Zip":60654,"State":"IL","Category":"Payments"},{"Company Name":"E*Trade","Street Address":"125 S Wacker Dr #100","City":"Chicago","Zip":60606,"State":"IL","Category":"Capital Markets","lat":41.8797204,"lng":-87.63638650000001},{"Company Name":"Eagle Seven Trading","Street Address":"550 W Jackson Blvd","City":"Chicago","Zip":60661,"State":"IL","Category":"Capital Markets"},{"Company Name":"Early Growth Financial Services","Street Address":"744 N. Wells St.","City":"Chicago","Zip":60654,"State":"IL","Category":"Service Provider"},{"Company Name":"ChicagoNEXT","Street Address":"155 N. Upper Wacker Drive","City":"Chicago","Zip":60606,"State":"IL","Category":"Organization","lat":41.8847867,"lng":-87.6366711},{"Company Name":"Eurex","Street Address":"Willis Tower, 233 S Wacker Dr #2450","City":"Chicago","Zip":60606,"State":"IL","Category":"Capital Markets"},{"Company Name":"Financial Times","Street Address":"20 N Wacker Dr Ste 2610","City":"Chicago","Zip":60606,"State":"IL","Category":"Media"},{"Company Name":"Finom","Street Address":"811 W Evergreen Ave","City":"Chicago","Zip":60642,"State":"IL","Category":"Investment Management"},{"Company Name":"Firm58 Inc.","Street Address":"118 S Clinton St #600","City":"Chicago","Zip":60661,"State":"IL","Category":"Capital Markets","lat":41.8799175,"lng":-87.64143030000002},{"Company Name":"Founder Equity","Street Address":"118 N. Peoria, Suite 3S","City":"Chicago","Zip":60607,"State":"IL","Category":"Investor"},{"Company Name":"Freshwater Advisors","Street Address":"222 W Merchandise Mart, Suite 1212","City":"Chicago","Zip":60654,"State":"IL","Category":"Consulting"},{"Company Name":"DealRoom","Street Address":"123 W. Madison","City":"Chicago","Zip":60602,"State":"IL","Category":"Data & Analytics","lat":41.8817398,"lng":-87.6319628},{"Company Name":"G1 Execution Services","Street Address":"440 South La Salle Street, One Financial Place\nSuite 3030","City":"Chicago","Zip":60605,"State":"IL","Category":"Capital Markets"},{"Company Name":"Gate 39 Media","Street Address":"29 E. Madison Suite 1514","City":"Chicago","Zip":60602,"State":"IL","Category":"Technology"},{"Company Name":"Gerchen Keller Capital","Street Address":"300 North LaSalle Street, Suite 1825","City":"Chicago","Zip":60654,"State":"IL","Category":"Investment Management","lat":41.8882179,"lng":-87.63313599999998},{"Company Name":"Guild Capital","Street Address":"222 West Hubbard St, Suite 200","City":"Chicago","Zip":60606,"State":"IL","Category":"Investor"},{"Company Name":"Hearst Magazines","Street Address":"Charter One Bank, 1 S Wacker Dr # 1100","City":"Chicago","Zip":60606,"State":"IL","Category":"Media"},{"Company Name":"Hedge Act","Street Address":"325 West Huron Street, Suite 300","City":"Chicago","Zip":60654,"State":"IL","Category":"Technology"},{"Company Name":"Heidrick & Struggles","Street Address":"Willis Tower, 233 S Wacker Dr #4200","City":"Chicago","Zip":60606,"State":"IL","Category":"Service Provider"},{"Company Name":"HighTower","Street Address":"200 W Madison St #2500","City":"Chicago","Zip":60606,"State":"IL","Category":"Investment Management"},{"Company Name":"Houlihan Capital","Street Address":"500 W Madison St #2600, Chicago, IL","City":"Chicago","Zip":60661,"State":"IL","Category":"Investment Management"},{"Company Name":"Hyde Park Angels","Street Address":"222 W Merchandise Mart PlaceSuite 1212","City":"Chicago","Zip":60654,"State":"IL","Category":"Investor","lat":41.8885198,"lng":-87.63544819999998},{"Company Name":"Hyde Park Venture Partners","Street Address":"225 W Washington, Suite 1500","City":"Chicago","Zip":60606,"State":"IL","Category":"Investor"},{"Company Name":"IBM","Street Address":"5821 N Sacramento Ave","City":"Chicago","Zip":60659,"State":"IL","Category":"Service Provider"},{"Company Name":"Illinois Institute of Technology","Street Address":"3300 S Federal St","City":"Chicago","Zip":60616,"State":"IL","Category":"Education","lat":41.83433950000001,"lng":-87.62378660000002},{"Company Name":"InHub","Street Address":"111 W Illinois","City":"Chicago","Zip":60654,"State":"IL","Category":"Investment Management"},{"Company Name":"Intercontinental Exchange (ICE)","Street Address":"353 N Clark St, Chicago","City":"Chicago","Zip":60654,"State":"IL","Category":"Capital Markets"},{"Company Name":"Internship Desk","Street Address":"Two Prudential Plaza,\n180 N. Stetson St. Suite 3500","City":"Chicago","Zip":60601,"State":"IL","Category":"Service Provider","lat":41.88542349999999,"lng":-87.62270409999996},{"Company Name":"J.P. Morgan Chase","Street Address":"21 S. Clark Street, Suite 3200","City":"Chicago","Zip":60603,"State":"IL","Category":"Banking"},{"Company Name":"Jump Capital","Street Address":"600 W Chicago Ave Suite 825","City":"Chicago","Zip":60654,"State":"IL","Category":"Investor"},{"Company Name":"Knight Capital LLC","Street Address":"180 N. Stetson Avenue, Suite 3650","City":"Chicago","Zip":60601,"State":"IL","Category":"Capital Markets"},{"Company Name":"Linkedin","Street Address":"525 W Monroe, Suite 400","City":"Chicago","Zip":60606,"State":"IL","Category":"Service Provider","lat":41.8802302,"lng":-87.6403818},{"Company Name":"Magnetar Investment Academy","Street Address":"1603 Orringtion Ave, 13th Floor","City":"Evanston","Zip":60201,"State":"IL","Category":"Education"},{"Company Name":"Main Street Financial","Street Address":"333 W Upper Wacker Dr #2070","City":"Chicago","Zip":60606,"State":"IL","Category":"Investment Management"},{"Company Name":"Maven Wave Partners","Street Address":"550 W Washington Blvd #300","City":"Chicago","Zip":60661,"State":"IL","Category":"Consulting","lat":41.88351979999999,"lng":-87.64165129999998},{"Company Name":"Midwest Lending Corporation","Street Address":"1732 W Hubbard St","City":"Chicago","Zip":60622,"State":"IL","Category":"Lending"},{"Company Name":"Milesius Capital Resources, LLC","Street Address":"65 W Jackson Blvd","City":"Chicago","Zip":60604,"State":"IL","Category":"Investment Management"},{"Company Name":"Morningstar","Street Address":"22 W Washington St","City":"Chicago","Zip":60602,"State":"IL","Category":"Data & Analytics","lat":41.8835116,"lng":-87.62867990000001},{"Company Name":"Ms. Tech","Street Address":"2 N LaSalle St","City":"Chicago","Zip":60602,"State":"IL","Category":"Organization"},{"Company Name":"National Futures Association","Street Address":"300 S Riverside Plaza #1800","City":"Chicago","Zip":60606,"State":"IL","Category":"Organization"},{"Company Name":"Neal, Gerber, Eisenberg LLP","Street Address":"2 N La Salle Dr","City":"Chicago","Zip":60602,"State":"IL","Category":"Service Provider"},{"Company Name":"Netrix LLC","Street Address":"12620 S Holiday Dr # D","City":"Alsip","Zip":60803,"State":"","Category":"Service Provider","lat":41.6627156,"lng":-87.74653139999998},{"Company Name":"Nomura Securities","Street Address":"200 S Wacker Dr","City":"Chicago","Zip":60606,"State":"IL","Category":"Capital Markets"},{"Company Name":"Northern Trust","Street Address":"50 S La salle St","City":"Chicago","Zip":60603,"State":"IL","Category":"Banking"},{"Company Name":"O'Shaughnessy Asset Management","Street Address":"656 W Randolph St # 4W","City":"Chicago","Zip":60661,"State":"IL","Category":"Investment Management","lat":41.8848202,"lng":-87.64512439999999},{"Company Name":"OCA Ventures","Street Address":"351 W Hubbard St #600","City":"Chicago","Zip":60654,"State":"IL","Category":"Investor"},{"Company Name":"OCC","Street Address":"1 North Wacker Drive #500","City":"Chicago","Zip":60606,"State":"IL","Category":"Capital Markets"},{"Company Name":"Options Away","Street Address":"222 W Merchandise Mart Plaza","City":"Chicago","Zip":60654,"State":"IL","Category":"Data & Analytics","lat":41.8885198,"lng":-87.63544819999998},{"Company Name":"ORC Software","Street Address":"190 S LaSalle #1200","City":"Chicago","Zip":60603,"State":"IL","Category":"Technology"},{"Company Name":"Origin Ventures","Street Address":"549 W Randolph St Ste 601","City":"Chicago","Zip":60661,"State":"IL","Category":"Investor"},{"Company Name":"Oyster Consulting LLC","Street Address":"200 S Wacker Dr","City":"Chicago","Zip":60606,"State":"IL","Category":"Investment Management"},{"Company Name":"Pangea Payments","Street Address":"401 W. Superior Street","City":"Chicago","Zip":60654,"State":"IL","Category":"Payments","lat":41.8952923,"lng":-87.63876829999998},{"Company Name":"Patke & Associates Lld","Street Address":"300 Village Green #210","City":"Chicago","Zip":60069,"State":"IL","Category":"Service Provider"},{"Company Name":"Payville USA","Street Address":"800 Enterprise Dr #201","City":"Oak Brook","Zip":60523,"State":"IL","Category":"Payments"},{"Company Name":"Perspicua Strategic Partners","Street Address":"1901 North Lincoln Park West","City":"Chicago","Zip":60614,"State":"IL","Category":"Service Provider","lat":41.916704,"lng":-87.63593500000002},{"Company Name":"Polsinelli PC","Street Address":"161 N. Clark Street Suite 4200","City":"Chicago","Zip":60601,"State":"IL","Category":"Service Provider"},{"Company Name":"Propllr","Street Address":"566 W Adams, Suite 610","City":"Chicago","Zip":60661,"State":"IL","Category":"Service Provider"},{"Company Name":"Quid Financial Services","Street Address":"910 West Van Buren Street","City":"Chicago","Zip":60607,"State":"IL","Category":"Investment Management","lat":41.8768565,"lng":-87.64988519999997},{"Company Name":"R.J. Obrien","Street Address":"222 S Riverside Plaza # 900","City":"Chicago","Zip":60606,"State":"IL","Category":"Capital Markets"},{"Company Name":"Raymond James","Street Address":"550 W. Washington Blvd., Suite 1050","City":"Chicago","Zip":60661,"State":"IL","Category":"Investment Management"},{"Company Name":"RCM Asset Management","Street Address":"621 S Plymouth Ct","City":"Chicago","Zip":60605,"State":"IL","Category":"Capital Markets"},{"Company Name":"Relcore Consulting","Street Address":"300 N. LaSalle St.","City":"Chicago","Zip":60654,"State":"IL","Category":"Service Provider","lat":41.8882179,"lng":-87.63313599999998},{"Company Name":"Rightpoint Consulting","Street Address":"29 N Upper Wacker Dr","City":"Chicago","Zip":60606,"State":"IL","Category":"Service Provider"},{"Company Name":"Rippleshot","Street Address":"222 W Merchandise Mart #1212","City":"Chicago","Zip":60606,"State":"IL","Category":"Data & Analytics"},{"Company Name":"RMB Capital","Street Address":"115 S La salle St","City":"Chicago","Zip":60603,"State":"IL","Category":"Investment Management","lat":41.880305,"lng":-87.6319004},{"Company Name":"Sandbox Industires","Street Address":"Merchandise Mart Properties, Inc., 1000 W Fulton Market #213","City":"Chicago","Zip":60607,"State":"IL","Category":"Investor"},{"Company Name":"Silver Oak Services Partners","Street Address":"1560 Sherman Ave","City":"Chicago","Zip":60201,"State":"IL","Category":"Investor"},{"Company Name":"Silveus Financial","Street Address":"1 E Upper Wacker Dr","City":"Chicago","Zip":60601,"State":"IL","Category":"Capital Markets","lat":41.8865189,"lng":-87.6275344},{"Company Name":"Smarteys Inc","Street Address":"650 West Lake Street Suite 320","City":"Chicago","Zip":60661,"State":"IL","Category":"Investment Management"},{"Company Name":"SoFi","Street Address":"4422 N. Ravenswood Avenue","City":"Chicago","Zip":60640,"State":"IL","Category":"Lending"},{"Company Name":"Square 1 Bank","Street Address":"225 West Washington Street Suite 1575","City":"Chicago","Zip":60606,"State":"IL","Category":"Banking"},{"Company Name":"Student Loan 411","Street Address":"222 W. Merchandise Mart Plaza Suite 1212","City":"Chicago","Zip":60654,"State":"IL","Category":"Lending","lat":41.8885198,"lng":-87.63544819999998},{"Company Name":"Sussex Financial Group","Street Address":"60 Revere Dr,","City":"Northbrook","Zip":60062,"State":"IL","Category":"Insurance"},{"Company Name":"Synchology","Street Address":"226 W. Kinzie","City":"Chicago","Zip":60654,"State":"IL","Category":"Payments"},{"Company Name":"The Kinetic Group","Street Address":"222 Merchandise Mart Plaza, Suite 250","City":"Chicago","Zip":60654,"State":"IL","Category":"Service Provider","lat":41.8885198,"lng":-87.63544819999998},{"Company Name":"The Options Insider","Street Address":"141 W Jackson","City":"Chicago","Zip":60606,"State":"IL","Category":"Media"},{"Company Name":"The Wealth Pool LLC","Street Address":"1307 W George St","City":"Chicago","Zip":60657,"State":"IL","Category":"Investment Management"},{"Company Name":"Third Stone Partners LLC","Street Address":"111 W Jackson Boulevard Suite 1530","City":"Chicago","Zip":60604,"State":"IL","Category":"Technology","lat":41.8778414,"lng":-87.6313015},{"Company Name":"Tibco","Street Address":"30 S. Wacker Drive, 22nd Floor","City":"Chicago","Zip":60606,"State":"IL","Category":"Data & Analytics"},{"Company Name":"Topstep Trader","Street Address":"130 S Jefferson St","City":"Chicago","Zip":60661,"State":"IL","Category":"Capital Markets"},{"Company Name":"Transunion","Street Address":"555 W Adams St","City":"Chicago","Zip":60661,"State":"IL","Category":"Data & Analytics"},{"Company Name":"Tribal Ventures","Street Address":"195 North Harbor Drive","City":"Chicago","Zip":60601,"State":"IL","Category":"Investor","lat":41.8856628,"lng":-87.61468960000002},{"Company Name":"Trinet","Street Address":"5th Floor, 111 W Illinois St","City":"Chicago","Zip":60654,"State":"IL","Category":"Service Provider"},{"Company Name":"Victory Park Capital","Street Address":"227 W Monroe St # 3900","City":"Chicago","Zip":60606,"State":"IL","Category":"Investment Management"},{"Company Name":"Wells Fargo","Street Address":"10 S Wacker Dr","City":"Chicago","Zip":60606,"State":"IL","Category":"Banking","lat":41.8813538,"lng":-87.63727369999998},{"Company Name":"Wells Fargo Advisors","Street Address":"30 South Wacker Drive Suite 4000","City":"Chicago","Zip":60606,"State":"IL","Category":"Investment Management"},{"Company Name":"West Loop Ventures","Street Address":"230 W Superior, Suite 200","City":"Chicago","Zip":60654,"State":"IL","Category":"Investor"},{"Company Name":"William Blair","Street Address":"222 West Adams Street","City":"Chicago","Zip":60606,"State":"IL","Category":"Banking","lat":41.8795708,"lng":-87.63477979999999},{"Company Name":"WP Global Partners","Street Address":"155 N. Wacker Dr., Suite 4400","City":"Chicago","Zip":60606,"State":"L","Category":"Investor"},{"Company Name":"YCharts","Street Address":"414 N Orleans St #302","City":"Chicago","Zip":60654,"State":"IL","Category":"Data & Analytics"},{"Company Name":"Yezzi (POMS)","Street Address":"920 N. Franklin, Suite 301 Chicago","City":"Chicago","Zip":60610,"State":"IL","Category":"Payments"},{"Company Name":"","Street Address":"","City":"","Zip":"","State":"","Category":""},{"Company Name":"","Street Address":"","City":"","Zip":"","State":"","Category":""},{"Company Name":"","Street Address":"","City":"","Zip":"","State":"","Category":""},{"Company Name":"Coaccession","Street Address":"","City":"","Zip":"","State":"","Category":"Investment Management"},{"Company Name":"Evestment","Street Address":"","City":"","Zip":"","State":"","Category":"Data & Analytics"}],
+      categories = [
+        {name: "Banking", color: "3F88C5"},
+        {name: "Capital Markets", color: "0F1D5D"},
+        {name: "Consulting", color: "85FF9E" },
+        {name: "Data & Analytics", color: "159C39"},
+        {name: "Education", color: "A6F4DC"},
+        {name: "Insurance", color: "8BBEB2"},
+        {name: "Investment Management", color: "AF90A9"},
+        {name: "Investor", color: "FFFC31"},
+        {name: "Lending", color: "DC135D"},
+        {name: "Media", color: "C2E755"},
+        {name: "Organization", color: "E637BF"},
+        {name: "Payments", color: "E9EBF8"},
+        {name: "Service Provider", color: "FFBF00"},
+        {name: "Technology", color: "DE6E4B"}
+      ];
+
+  var $categories = $('#categories'),
+      categoriesHtml = "";
+  $.each(categories, function(i, category){
+    categoriesHtml += '<li><label style="color: #' + category.color + ';" for="category_' + i + '">';
+    categoriesHtml += '<input checked class="category-filter" type="checkbox" value="' + category.name + '" id="category_' + i + '" /> ';
+    categoriesHtml += category.name + '</label></li>';
+  });
+  $categories.html(categoriesHtml);
+
+  $('.category-filter').on('change', function(){
+    filterMap();
+  });
+
+  function filterMap(){
+    var filters = $('.category-filter');
+    $.each(filters, function(i, filter){
+      var mapToShow = $(filter).prop("checked") ? map : null;
+
+      $.each(markers, function(i, marker){
+        if (marker.category === $(filter).val()){
+          marker.setMap(mapToShow);
+        }
+      });
+    });
+  }
+
+  $('.select-all').on('click', function(e){
+    e.preventDefault();
+    $('.category-filter').prop("checked", true).trigger("change");
+  })
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: 41.877376, lng: -87.632281 },
+    zoom: 14,
+    mapTypeControl: false
+  });
+
+  for (var i=0; i < companies.length; i++){
+    var company = companies[i],
+        marker = new google.maps.Marker({
+          position: { lat: company.lat, lng: company.lng },
+          map: map,
+          title: company["Company Name"],
+          category: company["Category"],
+          index: i,
+          icon: '/img/marker.svg'
+        });
+
+    markers.push(marker);
+
+    var html = "<p><b>" + company["Company Name"] + "</b></p><p>" + company["Category"] + "</p>",
+        infoWindow = new google.maps.InfoWindow({ content: html });
+
+    infoWindows.push(infoWindow);
+
+    marker.addListener('click', function() {
+      for(var j = 0; j < infoWindows.length; j++){
+        if (this.index === j){
+          infoWindows[j].open(map, this);
+        } else {
+          infoWindows[j].close();
+        }
+      }
+    });
+  }
+
+  // var markerCluster = new MarkerClusterer(map, markers, {gridSize: 70, maxZoom: 15, imagePath: '/img/m'});
+
+// [
+//   {
+//     "Company Name": "Academy Securities",
+//     "Street Address": "550 W Van Buren St Suite 1410",
+//     "City": "Chicago",
+//     "Zip": 60607,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Accenture",
+//     "Street Address": "161 N Clark St",
+//     "City": "Chicago",
+//     "Zip": 60601,
+//     "State": "IL",
+//     "Category": "Consulting"
+//   },
+//   {
+//     "Company Name": "Activ Financial",
+//     "Street Address": "125 South Wacker Drive, Suite 2325",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "Advantage Futures",
+//     "Street Address": "231 S La salle St Suite 1400",
+//     "City": "Chicago",
+//     "Zip": 60604,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Aegea Capital",
+//     "Street Address": "233 South Wacker Drive, Suite 8625",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Algo Fast",
+//     "Street Address": "333 N Canal Street, #2205",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Technology"
+//   },
+//   {
+//     "Company Name": "Anderson Pacific",
+//     "Street Address": "NBC Tower, 455 N Cityfront Plaza Dr #2750",
+//     "City": "Chicago",
+//     "Zip": 60611,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Anova Technologies",
+//     "Street Address": "205 N Michigan Ave #4230",
+//     "City": "Chicago",
+//     "Zip": 60601,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "Arrow Payments",
+//     "Street Address": "935 W Chestnut St",
+//     "City": "Chicago",
+//     "Zip": 60642,
+//     "State": "IL",
+//     "Category": "Payments"
+//   },
+//   {
+//     "Company Name": "Ashland Partners and Company LLP",
+//     "Street Address": "33 North LaSalle Street Suite 2330",
+//     "City": "Chicago",
+//     "Zip": 60602,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Avant Credit",
+//     "Street Address": "640 N. LaSalle #555, Chicago",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Lending"
+//   },
+//   {
+//     "Company Name": "Aviva Investors of America",
+//     "Street Address": "225 W Upper Wacker Dr",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Backstop Solutions Group",
+//     "Street Address": "Willis Tower, 233 S Wacker Dr #3960",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Consulting"
+//   },
+//   {
+//     "Company Name": "Baird Private Equity",
+//     "Street Address": "227 West Monroe Street\nSuite 1900",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Bank of America",
+//     "Street Address": "231 South La Salle Street",
+//     "City": "Chicago",
+//     "Zip": 60604,
+//     "State": "IL",
+//     "Category": "Banking"
+//   },
+//   {
+//     "Company Name": "Barchart",
+//     "Street Address": "209 W Jackson Blvd #200",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "BOE Group",
+//     "Street Address": "120 N. LaSalle Street, Suite1500",
+//     "City": "Chicago",
+//     "Zip": 60602,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Braintree",
+//     "Street Address": "Suite 800, Merchandise Mart Properties, Inc., 222 W Merchandise Mart Plaza",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Payments"
+//   },
+//   {
+//     "Company Name": "Brown Brothers Harriman",
+//     "Street Address": "150 S Wacker Dr # 3250",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Banking"
+//   },
+//   {
+//     "Company Name": "Caherciveen Partners",
+//     "Street Address": "500 West Madison St # 1610",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Card Connect",
+//     "Street Address": "317 N. Racine Avenue",
+//     "City": "Chicago",
+//     "Zip": 60607,
+//     "State": "IL",
+//     "Category": "Payments"
+//   },
+//   {
+//     "Company Name": "Center for Financial Services Innovation",
+//     "Street Address": "21 N Clark St #1950",
+//     "City": "Chicago",
+//     "Zip": 60602,
+//     "State": "IL",
+//     "Category": "Organization"
+//   },
+//   {
+//     "Company Name": "Chicago Life Settlements",
+//     "Street Address": "141 W Jackson Blvd #1404",
+//     "City": "Chicago",
+//     "Zip": 60604,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Chicago Stock Exchange",
+//     "Street Address": "One Financial Place, 440 S La salle St",
+//     "City": "Chicago",
+//     "Zip": 60605,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Chicago Ventures",
+//     "Street Address": "Merchandise Mart Properties, Inc., 222 W Merchandise Mart Plaza #1212",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Club Hill Capital",
+//     "Street Address": "155 N. Wacker Drive Suite 4250",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Lending"
+//   },
+//   {
+//     "Company Name": "CME Group",
+//     "Street Address": "20 S. Wacker Drive",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Compensation and Benefits Solutions",
+//     "Street Address": "2516 Waukegan Road, Suite 302",
+//     "City": "Glenview",
+//     "Zip": 60025,
+//     "State": "IL",
+//     "Category": "Consulting"
+//   },
+//   {
+//     "Company Name": "Connamara Systems, LLC",
+//     "Street Address": "200 W Jackson Blvd #1950",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Technology"
+//   },
+//   {
+//     "Company Name": "Connect Lending",
+//     "Street Address": "123 Danada Square East Suite 133",
+//     "City": "Wheaton",
+//     "Zip": 60189,
+//     "State": "IL",
+//     "Category": "Lending"
+//   },
+//   {
+//     "Company Name": "CQG",
+//     "Street Address": "311 Lower Wacker Dr # 6100",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "Cumulus Funding",
+//     "Street Address": "325 West Huron Chicago",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Lending"
+//   },
+//   {
+//     "Company Name": "David Widerhorn Consulting, LLC",
+//     "Street Address": "141 W Jackson Blvd, Suite 1692",
+//     "City": "Chicago",
+//     "Zip": 60604,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "Discover",
+//     "Street Address": "350 N Orleans St Suite 660",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Payments"
+//   },
+//   {
+//     "Company Name": "E*Trade",
+//     "Street Address": "125 S Wacker Dr #100",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Eagle Seven Trading",
+//     "Street Address": "550 W Jackson Blvd",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Early Growth Financial Services",
+//     "Street Address": "744 N. Wells St.",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "ChicagoNEXT",
+//     "Street Address": "155 N. Upper Wacker Drive",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Organization"
+//   },
+//   {
+//     "Company Name": "Eurex",
+//     "Street Address": "Willis Tower, 233 S Wacker Dr #2450",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Financial Times",
+//     "Street Address": "20 N Wacker Dr Ste 2610",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Media"
+//   },
+//   {
+//     "Company Name": "Finom",
+//     "Street Address": "811 W Evergreen Ave",
+//     "City": "Chicago",
+//     "Zip": 60642,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Firm58 Inc.",
+//     "Street Address": "118 S Clinton St #600",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Founder Equity",
+//     "Street Address": "118 N. Peoria, Suite 3S",
+//     "City": "Chicago",
+//     "Zip": 60607,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Freshwater Advisors",
+//     "Street Address": "222 W Merchandise Mart, Suite 1212",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Consulting"
+//   },
+//   {
+//     "Company Name": "DealRoom",
+//     "Street Address": "123 W. Madison",
+//     "City": "Chicago",
+//     "Zip": 60602,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "G1 Execution Services",
+//     "Street Address": "440 South La Salle Street, One Financial Place\nSuite 3030",
+//     "City": "Chicago",
+//     "Zip": 60605,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Gate 39 Media",
+//     "Street Address": "29 E. Madison Suite 1514",
+//     "City": "Chicago",
+//     "Zip": 60602,
+//     "State": "IL",
+//     "Category": "Technology"
+//   },
+//   {
+//     "Company Name": "Gerchen Keller Capital",
+//     "Street Address": "300 North LaSalle Street, Suite 1825",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Guild Capital",
+//     "Street Address": "222 West Hubbard St, Suite 200",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Hearst Magazines",
+//     "Street Address": "Charter One Bank, 1 S Wacker Dr # 1100",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Media"
+//   },
+//   {
+//     "Company Name": "Hedge Act",
+//     "Street Address": "325 West Huron Street, Suite 300",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Technology"
+//   },
+//   {
+//     "Company Name": "Heidrick & Struggles",
+//     "Street Address": "Willis Tower, 233 S Wacker Dr #4200",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "HighTower",
+//     "Street Address": "200 W Madison St #2500",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Houlihan Capital",
+//     "Street Address": "500 W Madison St #2600, Chicago, IL",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Hyde Park Angels",
+//     "Street Address": "222 W Merchandise Mart PlaceSuite 1212",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Hyde Park Venture Partners",
+//     "Street Address": "225 W Washington, Suite 1500",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "IBM",
+//     "Street Address": "5821 N Sacramento Ave",
+//     "City": "Chicago",
+//     "Zip": 60659,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Illinois Institute of Technology",
+//     "Street Address": "3300 S Federal St",
+//     "City": "Chicago",
+//     "Zip": 60616,
+//     "State": "IL",
+//     "Category": "Education"
+//   },
+//   {
+//     "Company Name": "InHub",
+//     "Street Address": "111 W Illinois",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Intercontinental Exchange (ICE)",
+//     "Street Address": "353 N Clark St, Chicago",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Internship Desk",
+//     "Street Address": "Two Prudential Plaza,\n180 N. Stetson St. Suite 3500",
+//     "City": "Chicago",
+//     "Zip": 60601,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "J.P. Morgan Chase",
+//     "Street Address": "21 S. Clark Street, Suite 3200",
+//     "City": "Chicago",
+//     "Zip": 60603,
+//     "State": "IL",
+//     "Category": "Banking"
+//   },
+//   {
+//     "Company Name": "Jump Capital",
+//     "Street Address": "600 W Chicago Ave Suite 825",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Knight Capital LLC",
+//     "Street Address": "180 N. Stetson Avenue, Suite 3650",
+//     "City": "Chicago",
+//     "Zip": 60601,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Linkedin",
+//     "Street Address": "525 W Monroe, Suite 400",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Magnetar Investment Academy",
+//     "Street Address": "1603 Orringtion Ave, 13th Floor",
+//     "City": "Evanston",
+//     "Zip": 60201,
+//     "State": "IL",
+//     "Category": "Education"
+//   },
+//   {
+//     "Company Name": "Main Street Financial",
+//     "Street Address": "333 W Upper Wacker Dr #2070",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Maven Wave Partners",
+//     "Street Address": "550 W Washington Blvd #300",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Consulting"
+//   },
+//   {
+//     "Company Name": "Midwest Lending Corporation",
+//     "Street Address": "1732 W Hubbard St",
+//     "City": "Chicago",
+//     "Zip": 60622,
+//     "State": "IL",
+//     "Category": "Lending"
+//   },
+//   {
+//     "Company Name": "Milesius Capital Resources, LLC",
+//     "Street Address": "65 W Jackson Blvd",
+//     "City": "Chicago",
+//     "Zip": 60604,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Morningstar",
+//     "Street Address": "22 W Washington St",
+//     "City": "Chicago",
+//     "Zip": 60602,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "Ms. Tech",
+//     "Street Address": "2 N LaSalle St",
+//     "City": "Chicago",
+//     "Zip": 60602,
+//     "State": "IL",
+//     "Category": "Organization"
+//   },
+//   {
+//     "Company Name": "National Futures Association",
+//     "Street Address": "300 S Riverside Plaza #1800",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Organization"
+//   },
+//   {
+//     "Company Name": "Neal, Gerber, Eisenberg LLP",
+//     "Street Address": "2 N La Salle Dr",
+//     "City": "Chicago",
+//     "Zip": 60602,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Netrix LLC",
+//     "Street Address": "12620 S Holiday Dr # D",
+//     "City": "Alsip",
+//     "Zip": 60803,
+//     "State": "",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Nomura Securities",
+//     "Street Address": "200 S Wacker Dr",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Northern Trust",
+//     "Street Address": "50 S La salle St",
+//     "City": "Chicago",
+//     "Zip": 60603,
+//     "State": "IL",
+//     "Category": "Banking"
+//   },
+//   {
+//     "Company Name": "O'Shaughnessy Asset Management",
+//     "Street Address": "656 W Randolph St # 4W",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "OCA Ventures",
+//     "Street Address": "351 W Hubbard St #600",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "OCC",
+//     "Street Address": "1 North Wacker Drive #500",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Options Away",
+//     "Street Address": "222 W Merchandise Mart Plaza",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "ORC Software",
+//     "Street Address": "190 S LaSalle #1200",
+//     "City": "Chicago",
+//     "Zip": 60603,
+//     "State": "IL",
+//     "Category": "Technology"
+//   },
+//   {
+//     "Company Name": "Origin Ventures",
+//     "Street Address": "549 W Randolph St Ste 601",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Oyster Consulting LLC",
+//     "Street Address": "200 S Wacker Dr",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Pangea Payments",
+//     "Street Address": "401 W. Superior Street",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Payments"
+//   },
+//   {
+//     "Company Name": "Patke & Associates Lld",
+//     "Street Address": "300 Village Green #210",
+//     "City": "Chicago",
+//     "Zip": 60069,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Payville USA",
+//     "Street Address": "800 Enterprise Dr #201",
+//     "City": "Oak Brook",
+//     "Zip": 60523,
+//     "State": "IL",
+//     "Category": "Payments"
+//   },
+//   {
+//     "Company Name": "Perspicua Strategic Partners",
+//     "Street Address": "1901 North Lincoln Park West",
+//     "City": "Chicago",
+//     "Zip": 60614,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Polsinelli PC",
+//     "Street Address": "161 N. Clark Street Suite 4200",
+//     "City": "Chicago",
+//     "Zip": 60601,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Propllr",
+//     "Street Address": "566 W Adams, Suite 610",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Quid Financial Services",
+//     "Street Address": "910 West Van Buren Street",
+//     "City": "Chicago",
+//     "Zip": 60607,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "R.J. Obrien",
+//     "Street Address": "222 S Riverside Plaza # 900",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Raymond James",
+//     "Street Address": "550 W. Washington Blvd., Suite 1050",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "RCM Asset Management",
+//     "Street Address": "621 S Plymouth Ct",
+//     "City": "Chicago",
+//     "Zip": 60605,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Relcore Consulting",
+//     "Street Address": "300 N. LaSalle St.",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Rightpoint Consulting",
+//     "Street Address": "29 N Upper Wacker Dr",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Rippleshot",
+//     "Street Address": "222 W Merchandise Mart #1212",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "RMB Capital",
+//     "Street Address": "115 S La salle St",
+//     "City": "Chicago",
+//     "Zip": 60603,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Sandbox Industires",
+//     "Street Address": "Merchandise Mart Properties, Inc., 1000 W Fulton Market #213",
+//     "City": "Chicago",
+//     "Zip": 60607,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Silver Oak Services Partners",
+//     "Street Address": "1560 Sherman Ave",
+//     "City": "Chicago",
+//     "Zip": 60201,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Silveus Financial",
+//     "Street Address": "1 E Upper Wacker Dr",
+//     "City": "Chicago",
+//     "Zip": 60601,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Smarteys Inc",
+//     "Street Address": "650 West Lake Street Suite 320",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "SoFi",
+//     "Street Address": "4422 N. Ravenswood Avenue",
+//     "City": "Chicago",
+//     "Zip": 60640,
+//     "State": "IL",
+//     "Category": "Lending"
+//   },
+//   {
+//     "Company Name": "Square 1 Bank",
+//     "Street Address": "225 West Washington Street Suite 1575",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Banking"
+//   },
+//   {
+//     "Company Name": "Student Loan 411",
+//     "Street Address": "222 W. Merchandise Mart Plaza Suite 1212",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Lending"
+//   },
+//   {
+//     "Company Name": "Sussex Financial Group",
+//     "Street Address": "60 Revere Dr,",
+//     "City": "Northbrook",
+//     "Zip": 60062,
+//     "State": "IL",
+//     "Category": "Insurance"
+//   },
+//   {
+//     "Company Name": "Synchology",
+//     "Street Address": "226 W. Kinzie",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Payments"
+//   },
+//   {
+//     "Company Name": "The Kinetic Group",
+//     "Street Address": "222 Merchandise Mart Plaza, Suite 250",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "The Options Insider",
+//     "Street Address": "141 W Jackson",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Media"
+//   },
+//   {
+//     "Company Name": "The Wealth Pool LLC",
+//     "Street Address": "1307 W George St",
+//     "City": "Chicago",
+//     "Zip": 60657,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Third Stone Partners LLC",
+//     "Street Address": "111 W Jackson Boulevard Suite 1530",
+//     "City": "Chicago",
+//     "Zip": 60604,
+//     "State": "IL",
+//     "Category": "Technology"
+//   },
+//   {
+//     "Company Name": "Tibco",
+//     "Street Address": "30 S. Wacker Drive, 22nd Floor",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "Topstep Trader",
+//     "Street Address": "130 S Jefferson St",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Capital Markets"
+//   },
+//   {
+//     "Company Name": "Transunion",
+//     "Street Address": "555 W Adams St",
+//     "City": "Chicago",
+//     "Zip": 60661,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "Tribal Ventures",
+//     "Street Address": "195 North Harbor Drive",
+//     "City": "Chicago",
+//     "Zip": 60601,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "Trinet",
+//     "Street Address": "5th Floor, 111 W Illinois St",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Service Provider"
+//   },
+//   {
+//     "Company Name": "Victory Park Capital",
+//     "Street Address": "227 W Monroe St # 3900",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Wells Fargo",
+//     "Street Address": "10 S Wacker Dr",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Banking"
+//   },
+//   {
+//     "Company Name": "Wells Fargo Advisors",
+//     "Street Address": "30 South Wacker Drive Suite 4000",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "West Loop Ventures",
+//     "Street Address": "230 W Superior, Suite 200",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "William Blair",
+//     "Street Address": "222 West Adams Street",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "IL",
+//     "Category": "Banking"
+//   },
+//   {
+//     "Company Name": "WP Global Partners",
+//     "Street Address": "155 N. Wacker Dr., Suite 4400",
+//     "City": "Chicago",
+//     "Zip": 60606,
+//     "State": "L",
+//     "Category": "Investor"
+//   },
+//   {
+//     "Company Name": "YCharts",
+//     "Street Address": "414 N Orleans St #302",
+//     "City": "Chicago",
+//     "Zip": 60654,
+//     "State": "IL",
+//     "Category": "Data & Analytics"
+//   },
+//   {
+//     "Company Name": "Yezzi (POMS)",
+//     "Street Address": "920 N. Franklin, Suite 301 Chicago",
+//     "City": "Chicago",
+//     "Zip": 60610,
+//     "State": "IL",
+//     "Category": "Payments"
+//   },
+//   {
+//     "Company Name": "",
+//     "Street Address": "",
+//     "City": "",
+//     "Zip": "",
+//     "State": "",
+//     "Category": ""
+//   },
+//   {
+//     "Company Name": "",
+//     "Street Address": "",
+//     "City": "",
+//     "Zip": "",
+//     "State": "",
+//     "Category": ""
+//   },
+//   {
+//     "Company Name": "",
+//     "Street Address": "",
+//     "City": "",
+//     "Zip": "",
+//     "State": "",
+//     "Category": ""
+//   },
+//   {
+//     "Company Name": "Coaccession",
+//     "Street Address": "",
+//     "City": "",
+//     "Zip": "",
+//     "State": "",
+//     "Category": "Investment Management"
+//   },
+//   {
+//     "Company Name": "Evestment",
+//     "Street Address": "",
+//     "City": "",
+//     "Zip": "",
+//     "State": "",
+//     "Category": "Data & Analytics"
+//   }
+// ];
+
+// function sleep (time) {
+//   return new Promise((resolve) => setTimeout(resolve, time));
+// }
+
+// function geocode(companies, i){
+//   var geocoder = new google.maps.Geocoder(),
+//       company = companies[i];
+//   if (company){
+//     var address = [company["Street Address"], company["City"], company["State"], company["Zip"]].join(', ');
+//     if (address.length > 0){
+//       geocoder.geocode({ 'address': address }, function(results, status) {
+//         if (status == google.maps.GeocoderStatus.OK) {
+//           company.lat = results[0].geometry.location.lat();
+//           company.lng = results[0].geometry.location.lng();
+//           console.log(i);
+//         }
+//       });
+//     }
+//   }
+//   if (i < companies.length){
+//     sleep(300).then(function(){
+//       geocode(companies, ++i);
+//     });
+//   } else {
+//     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(companies));
+//     var dlAnchorElem = document.getElementById('downloadAnchorElem');
+//     dlAnchorElem.setAttribute("href", dataStr);
+//     dlAnchorElem.setAttribute("download", "scene.json");
+//     dlAnchorElem.click();
+//   }
+// }
+
+//   geocode(companies, 0);
+}
+</script>
+
+    <!-- <ui-view></ui-view> -->
 
     <!-- SCRIPTS -->
     <!-- jQuery -->
-    <script src="./libs/jquery.js"></script>
+
 
     <!-- Angular v1.4 -->
     <script src="./libs/angular.js"></script>
