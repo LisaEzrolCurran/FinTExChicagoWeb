@@ -199,10 +199,16 @@ function init(){
     var $categories = $('#categories'),
         categoriesHtml = "";
     $.each(categories, function(i, category){
-      categoriesHtml += '<li><label style="color: #' + category.color + ';" for="category_' + i + '">';
-      categoriesHtml += '<img src="img/unchecked.svg" /><img src="img/checked.svg" /><input checked class="category-filter ng-hide" type="checkbox" value="' + category.name + '" id="category_' + i + '" /> ';
-      categoriesHtml += category.name + '</label></li>';
+      var newHtml = '<li><label style="color: #' + category.color + ';" for="category_' + i + '">';
+      newHtml += '<img src="img/unchecked.svg" />';
+      newHtml += '<svg width="27px" height="27px" viewBox="0 0 27 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="checked" stroke="#292A2F"><ellipse id="Oval-22" fill-opacity="0.5" fill="#292A2F" cx="13.5016201" cy="13.5016201" rx="12.5016201" ry="12.5016201"></ellipse><polyline id="Path-2" points="8 13.25 12.3125 17.5 19.5 9"></polyline></g></g></svg>';
+      newHtml += '<input checked class="category-filter ng-hide" type="checkbox" value="' + category.name + '" id="category_' + i + '" /> ';
+      newHtml += category.name + '</label></li>';
+      $(newHtml).find('svg g').css('stroke', '#' + category.color);
+      $(newHtml).find('svg ellipse').css('fill', '#' + category.color);
+      categoriesHtml += newHtml;
     });
+
     $categories.html(categoriesHtml);
 
     $('.category-filter').on('change', function(){
