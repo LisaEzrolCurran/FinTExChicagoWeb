@@ -159,16 +159,28 @@
     <!-- UI VIEW -->
     <a id="downloadAnchorElem" style="display:none"></a>
 <style>
-  #map { height: 800px; width: 800px; margin: 0 auto; }
-  #categories { float: left; list-style-type: none; }
-  .map-container { margin-top:  140px; }
+  #map { height: 580px; margin: 0 auto; }
+  @media (max-width: @screen-xs-max) {
+    #categories {
+      position: absolute;
+    }
+  }
+  #categories { float: left; list-style-type: none; padding-left: 0px; }
+  #categories li { padding: 5px 0;  }
+  .map-container { margin-top:  145px; padding-left: 25px; }
+  label { cursor: pointer; }
+  .select-all { padding-left: 50px; }
+  svg { vertical-align: middle; }
+  .filter-label { color: rgb(16, 31, 91); }
+  .filter-header { margin-top:  0px; }
+  .company-infowindow h6 { color: grey; font-weight: normal; }
 </style>
-<div class="map-container">
-  <p>
-    <a href="#" class="select-all">Select All</a>
-  </p>
-  <ul id="categories"></ul>
-  <div id="map"></div>
+<div class="map-container row">
+  <div class="col-md-3 col-xs-12">
+    <h4 class="filter-header">Filter Options <small><a href="#" class="select-all">Check All</a></small></h4>
+    <ul id="categories"></ul>
+  </div>
+  <div id="map" class="col-md-9 col-xs-12"></div>
 </div>
 <script src="./libs/jquery.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA02W_u8TMd2K6o3yhJi-rF1R0CP2RS2Mg&callback=init" async defer></script>
@@ -199,17 +211,20 @@ function init(){
     var $categories = $('#categories'),
         categoriesHtml = "";
     $.each(categories, function(i, category){
-      var newHtml = '<li><label style="color: #' + category.color + ';" for="category_' + i + '">';
-      newHtml += '<img src="img/unchecked.svg" />';
-      newHtml += '<svg width="27px" height="27px" viewBox="0 0 27 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="checked" stroke="#292A2F"><ellipse id="Oval-22" fill-opacity="0.5" fill="#292A2F" cx="13.5016201" cy="13.5016201" rx="12.5016201" ry="12.5016201"></ellipse><polyline id="Path-2" points="8 13.25 12.3125 17.5 19.5 9"></polyline></g></g></svg>';
-      newHtml += '<input checked class="category-filter ng-hide" type="checkbox" value="' + category.name + '" id="category_' + i + '" /> ';
+      // style="color: #' + category.color + ';"
+      var newHtml = '<li><label class="filter-label" for="category_' + i + '">';
+      newHtml += '<img class="unchecked" src="img/unchecked.svg" />';
+      newHtml += '<svg width="27px" height="27px" viewBox="0 0 27 27"><g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="checked" stroke="#292A2F"><ellipse id="Oval-22" fill-opacity="0.5" fill="#292A2F" cx="13.5016201" cy="13.5016201" rx="12.5016201" ry="12.5016201"></ellipse><polyline id="Path-2" points="8 13.25 12.3125 17.5 19.5 9"></polyline></g></g></svg>';
+      newHtml += '<input checked class="category-filter ng-hide" type="checkbox" value="' + category.name + '" id="category_' + i + '" />&nbsp;&nbsp;';
       newHtml += category.name + '</label></li>';
-      $(newHtml).find('svg g').css('stroke', '#' + category.color);
-      $(newHtml).find('svg ellipse').css('fill', '#' + category.color);
-      categoriesHtml += newHtml;
+      var $newHtml = $(newHtml);
+      $newHtml.find('svg #checked').css('stroke', '#' + category.color);
+      $newHtml.find('svg ellipse').css('fill', '#' + category.color);
+      categoriesHtml += '<li>' + $newHtml.html() + '</li>';
     });
 
     $categories.html(categoriesHtml);
+    $('.unchecked').hide();
 
     $('.category-filter').on('change', function(){
       filterMap();
@@ -219,6 +234,15 @@ function init(){
       var filters = $('.category-filter');
       $.each(filters, function(i, filter){
         var mapToShow = $(filter).prop("checked") ? map : null;
+
+        var $label = $(filter).parent();
+        if (mapToShow){
+          $label.find('.unchecked').hide();
+          $label.find('svg').show();
+        } else {
+          $label.find('.unchecked').show();
+          $label.find('svg').hide();
+        }
 
         $.each(markers, function(i, marker){
           if (marker.category === $(filter).val()){
@@ -237,6 +261,7 @@ function init(){
       center: { lat: 41.877376, lng: -87.632281 },
       zoom: 14,
       mapTypeControl: false,
+      streetViewControl: false,
       styles: [
         {"featureType":"water","elementType":"geometry","stylers":[{"color":"#e9e9e9"},{"lightness":17}]},
         {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#f5f5f5"},{"lightness":20}]},
@@ -287,7 +312,7 @@ function init(){
 
         markers.push(marker);
 
-        var html = "<p><b>" + company["Company Name"] + "</b></p><p>" + company["Category"] + "</p>",
+        var html = "<div class='company-infowindow'><h5>" + company["Company Name"] + "</h5><h6>" + company["Street Address"] + "</h6><span>" + company["Category"] + "</span></div>",
             infoWindow = new google.maps.InfoWindow({ content: html });
 
         infoWindows.push(infoWindow);
