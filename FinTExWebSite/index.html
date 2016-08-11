@@ -160,27 +160,41 @@
     <a id="downloadAnchorElem" style="display:none"></a>
 <style>
   #map { height: 580px; margin: 0 auto; }
-  @media (max-width: @screen-xs-max) {
-    #categories {
-      position: absolute;
-    }
-  }
-  #categories { float: left; list-style-type: none; padding-left: 0px; }
-  #categories li { padding: 5px 0;  }
   .map-container { margin-top:  145px; padding-left: 25px; }
-  label { cursor: pointer; }
-  .select-all { padding-left: 50px; }
+  #categories { float: left; list-style-type: none; padding-left: 0px; }
+  @media (max-width: 768px) {
+    #map { width: 95%; }
+    .filter-options {
+      position: absolute;
+      z-index: 1;
+      background-color: white;
+      max-height: 200px;
+      overflow-y: scroll;
+      top: 140px;
+      padding: 5px;
+      border: 1px solid grey;
+    }
+    .map-container { margin-top: 100px; }
+    ul#categories { display: none; }
+  }
+  #categories li { padding: 3px 0;  }
+  label { cursor: pointer; font-size: 14px; }
+  .select-all { font-size: 12px; }
   svg { vertical-align: middle; }
   .filter-label { color: rgb(16, 31, 91); }
   .filter-header { margin-top:  0px; }
   .company-infowindow h6 { color: grey; font-weight: normal; }
 </style>
 <div class="map-container row">
-  <div class="col-md-3 col-xs-12">
-    <h4 class="filter-header">Filter Options <small><a href="#" class="select-all">Check All</a></small></h4>
+  <div class="col-md-2 col-xs-10 col-xs-offset-1 filter-options">
+    <div class="row">
+      <h5 class="filter-header col-md-8 col-xs-8">Filter Options</h5>
+      <!-- <i class="fa fa-chevron-down" aria-hidden="true"></i> -->
+      <a href="#" class="select-all col-md-4 col-xs-4">Check All</a>
+    </div>
     <ul id="categories"></ul>
   </div>
-  <div id="map" class="col-md-9 col-xs-12"></div>
+  <div id="map" class="col-md-8 col-xs-12"></div>
 </div>
 <script src="./libs/jquery.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA02W_u8TMd2K6o3yhJi-rF1R0CP2RS2Mg&callback=init" async defer></script>
@@ -208,57 +222,8 @@ function init(){
         {name: "Technology", color: "DE6E4B"}
       ];
 
-    var $categories = $('#categories'),
-        categoriesHtml = "";
-    $.each(categories, function(i, category){
-      // style="color: #' + category.color + ';"
-      var newHtml = '<li><label class="filter-label" for="category_' + i + '">';
-      newHtml += '<img class="unchecked" src="img/unchecked.svg" />';
-      newHtml += '<svg width="27px" height="27px" viewBox="0 0 27 27"><g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="checked" stroke="#292A2F"><ellipse id="Oval-22" fill-opacity="0.5" fill="#292A2F" cx="13.5016201" cy="13.5016201" rx="12.5016201" ry="12.5016201"></ellipse><polyline id="Path-2" points="8 13.25 12.3125 17.5 19.5 9"></polyline></g></g></svg>';
-      newHtml += '<input checked class="category-filter ng-hide" type="checkbox" value="' + category.name + '" id="category_' + i + '" />&nbsp;&nbsp;';
-      newHtml += category.name + '</label></li>';
-      var $newHtml = $(newHtml);
-      $newHtml.find('svg #checked').css('stroke', '#' + category.color);
-      $newHtml.find('svg ellipse').css('fill', '#' + category.color);
-      categoriesHtml += '<li>' + $newHtml.html() + '</li>';
-    });
-
-    $categories.html(categoriesHtml);
-    $('.unchecked').hide();
-
-    $('.category-filter').on('change', function(){
-      filterMap();
-    });
-
-    function filterMap(){
-      var filters = $('.category-filter');
-      $.each(filters, function(i, filter){
-        var mapToShow = $(filter).prop("checked") ? map : null;
-
-        var $label = $(filter).parent();
-        if (mapToShow){
-          $label.find('.unchecked').hide();
-          $label.find('svg').show();
-        } else {
-          $label.find('.unchecked').show();
-          $label.find('svg').hide();
-        }
-
-        $.each(markers, function(i, marker){
-          if (marker.category === $(filter).val()){
-            marker.setMap(mapToShow);
-          }
-        });
-      });
-    }
-
-    $('.select-all').on('click', function(e){
-      e.preventDefault();
-      $('.category-filter').prop("checked", true).trigger("change");
-    })
-
     map = new google.maps.Map(document.getElementById('map'), {
-      center: { lat: 41.877376, lng: -87.632281 },
+      center: { lat: 41.889805, lng: -87.629878 },
       zoom: 14,
       mapTypeControl: false,
       streetViewControl: false,
@@ -328,6 +293,60 @@ function init(){
         });
       }
     }
+
+        var $categories = $('#categories'),
+        categoriesHtml = "";
+    $.each(categories, function(i, category){
+      // style="color: #' + category.color + ';"
+      var companyCount = 0;
+      $.each(markers, function(i, marker){
+        if (marker.category === category.name){ companyCount++; }
+      });
+
+      var newHtml = '<li><label class="filter-label" for="category_' + i + '">';
+      newHtml += '<img class="unchecked" src="img/unchecked.svg" />';
+      newHtml += '<svg width="27px" height="27px" viewBox="0 0 27 27"><g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="checked" stroke="#292A2F"><ellipse id="Oval-22" fill-opacity="0.5" fill="#292A2F" cx="13.5016201" cy="13.5016201" rx="12.5016201" ry="12.5016201"></ellipse><polyline id="Path-2" points="8 13.25 12.3125 17.5 19.5 9"></polyline></g></g></svg>';
+      newHtml += '<input checked class="category-filter ng-hide" type="checkbox" value="' + category.name + '" id="category_' + i + '" />&nbsp;&nbsp;';
+      newHtml += category.name + '&nbsp;(' + companyCount + ')</label></li>';
+      var $newHtml = $(newHtml);
+      $newHtml.find('svg #checked').css('stroke', '#' + category.color);
+      $newHtml.find('svg ellipse').css('fill', '#' + category.color);
+      categoriesHtml += '<li>' + $newHtml.html() + '</li>';
+    });
+
+    $categories.html(categoriesHtml);
+    $('.unchecked').hide();
+
+    $('.category-filter').on('change', function(){
+      filterMap();
+    });
+
+    function filterMap(){
+      var filters = $('.category-filter');
+      $.each(filters, function(i, filter){
+        var mapToShow = $(filter).prop("checked") ? map : null;
+
+        var $label = $(filter).parent();
+        if (mapToShow){
+          $label.find('.unchecked').hide();
+          $label.find('svg').show();
+        } else {
+          $label.find('.unchecked').show();
+          $label.find('svg').hide();
+        }
+
+        $.each(markers, function(i, marker){
+          if (marker.category === $(filter).val()){
+            marker.setMap(mapToShow);
+          }
+        });
+      });
+    }
+
+    $('.select-all').on('click', function(e){
+      e.preventDefault();
+      $('.category-filter').prop("checked", true).trigger("change");
+    })
 
     // var markerCluster = new MarkerClusterer(map, markers, {gridSize: 70, maxZoom: 15, imagePath: '/img/m'});
   });
