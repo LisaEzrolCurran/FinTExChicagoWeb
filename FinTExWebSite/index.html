@@ -162,7 +162,7 @@
   #map { height: 580px; margin: 0 auto; }
   .map-container { margin-top:  145px; padding-left: 25px; }
   #categories { float: left; list-style-type: none; padding-left: 0px; }
-  @media (max-width: 768px) {
+  @media (max-width: 991px) {
     #map { width: 95%; }
     .filter-options {
       position: absolute;
@@ -170,30 +170,33 @@
       background-color: white;
       max-height: 200px;
       overflow-y: scroll;
-      top: 140px;
+      top: 190px;
       padding: 5px;
       border: 1px solid grey;
+      padding: 13px 0 0 18px;
     }
     .map-container { margin-top: 100px; }
     ul#categories { display: none; }
   }
   #categories li { padding: 3px 0;  }
-  label { cursor: pointer; font-size: 14px; }
-  .select-all { font-size: 12px; }
+  label { cursor: pointer; font-size: 12px; }
+  .select-all { font-size: 12px; color: #101f5b; }
   svg { vertical-align: middle; }
-  .filter-label { color: rgb(16, 31, 91); }
-  .filter-header { margin-top:  0px; }
-  .company-infowindow h6 { color: grey; font-weight: normal; }
+  .filter-label { color: rgb(16, 31, 91); text-transform: uppercase; color: grey; }
+  .filter-header { margin-top: 0px; color: #101f5b; }
+  .company-infowindow h6 { color: grey; font-weight: normal; margin-bottom: 0; }
+  .company-infowindow h5, span { color: #101f5b; font-weight: normal; margin-bottom: 0; margin-top: 5px; }
 </style>
 <div class="map-container row">
   <div class="col-md-2 col-xs-10 col-xs-offset-1 filter-options">
     <div class="row">
-      <h5 class="filter-header col-md-8 col-xs-8">Filter Options</h5>
+      <h4 class="filter-header col-md-8 col-xs-8">Filter Options</h4>
       <!-- <i class="fa fa-chevron-down" aria-hidden="true"></i> -->
       <a href="#" class="select-all col-md-4 col-xs-4">Check All</a>
     </div>
     <ul id="categories"></ul>
   </div>
+<h4 class="map-header">FinTEx Chicago Business Community </h4>
   <div id="map" class="col-md-8 col-xs-12"></div>
 </div>
 <script src="./libs/jquery.js"></script>

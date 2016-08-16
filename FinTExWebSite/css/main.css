@@ -83,7 +83,7 @@ header {
     color: #fff;
 /*    background: rgb(119,154,208);   light blue header background on each page*/
       background:  rgb(16, 31, 91);  /* DARK blue header background on each page*/
-  
+
 }
 
 header.title-block {
@@ -199,7 +199,7 @@ header .intro-text .focus {
 
 .navbar a:focus {
     outline: 0;
-    color: #0e76bd; 
+    color: #0e76bd;
 }
 
 .navbar .navbar-nav {
@@ -536,7 +536,7 @@ footer .footer-below {
     font-size: 20px;
 }
 
-hr { 
+hr {
     display: block;
     margin-top: 0.5em;
     margin-bottom: 0.5em;
@@ -603,4 +603,43 @@ ul.home-about-text li, ul.app-form li {
     color: black;
     font-weight: bold;
     font-size: 15px;
+}
+
+.map-header {
+        background-color: #101f5b;
+        padding: 20px;
+        color: white;
+        float: left;
+        width: 66.7%;
+        margin-bottom: 0;
+    }
+
+    .col-md-2, .col-xs-10, .col-xs-offset-1, .filter-options {
+        margin: 0 auto;
+        padding-top: 35px;
+        width: 300px;
+    }
+
+@media only screen and (max-width: 991px) {
+    .map-header {
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+        padding-left: 0;
+    }
+
+    .map-container {
+        margin: -25px;
+        padding-left: 1px;
+    }
+
+    .filter-options {
+        margin-left: 40px;
+        padding: 13px 0 0 18px;
+    }
+
+    .row {
+        margin-bottom: 0px;
+    }
+
 }
