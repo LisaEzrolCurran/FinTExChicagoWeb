@@ -159,11 +159,15 @@
     <!-- UI VIEW -->
     <a id="downloadAnchorElem" style="display:none"></a>
 <style>
-  #map { height: 580px; margin: 0 auto; }
+  #map { height: 580px; width: 70%; margin: 0 auto; }
   .map-container { margin-top:  145px; padding-left: 25px; }
+
+@media only screen and (max-width: 1199px) { .map-container { margin-top: 200px;}}
+@media only screen and (max-width: 992px) { .filter-options { margin-top: 100px;}}
+
   #categories { float: left; list-style-type: none; padding-left: 0px; }
   @media (max-width: 991px) {
-    #map { width: 95%; }
+    #map { width: 100%; }
     .filter-options {
       position: absolute;
       z-index: 1;
@@ -175,15 +179,15 @@
       border: 1px solid grey;
       padding: 13px 0 0 18px;
     }
-    .map-container { margin-top: 100px; }
-    ul#categories { display: none; }
+    .map-container { margin-top: 210px; }
+    ul#categories { display: none;}
   }
   #categories li { padding: 3px 0;  }
   label { cursor: pointer; font-size: 12px; }
   .select-all { font-size: 12px; color: #101f5b; }
   svg { vertical-align: middle; }
   .filter-label { color: rgb(16, 31, 91); text-transform: uppercase; color: grey; }
-  .filter-header { margin-top: 0px; color: #101f5b; }
+  .filter-header { margin-top: 0px;}
   .company-infowindow h6 { color: grey; font-weight: normal; margin-bottom: 0; }
   .company-infowindow h5, span { color: #101f5b; font-weight: normal; margin-bottom: 0; margin-top: 5px; }
 </style>
