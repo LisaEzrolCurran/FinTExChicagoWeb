@@ -255,7 +255,15 @@ function init(){
   $.get('/public/companies.json', function(companies){
 
     function iconPosition(i){
-      return new google.maps.Point((i % 7) * 30, Math.floor(i / 7) * 30);
+      return new google.maps.Point(iconXPosition(i), iconYPosition(i));
+    }
+
+    function iconXPosition(i){
+      return (i % 7) * 30
+    }
+
+    function iconYPosition(i){
+      return Math.floor(i / 7) * 30
     }
 
     for (var i=0; i < companies.length; i++){
@@ -284,8 +292,12 @@ function init(){
 
         markers.push(marker);
 
-        var html = "<div class='company-infowindow'><h5>" + company["Company Name"] + "</h5><h6>" + company["Street Address"] + "</h6><span>" + company["Category"] + "</span></div>",
-            infoWindow = new google.maps.InfoWindow({ content: html });
+        console.log(iconXPosition(categoryIndex));
+
+        var html = "<div class='company-infowindow'><h5>" + company["Company Name"];
+            html += "<span class='category-marker' style='background-position: -" + iconXPosition(categoryIndex) + "px -" + iconYPosition(categoryIndex) + "px;'>";
+            html += "</span></h5><h6>" + company["Street Address"] + "</h6><span>" + company["Category"] + "</span></div>";
+        var infoWindow = new google.maps.InfoWindow({ content: html });
 
         infoWindows.push(infoWindow);
 
@@ -301,7 +313,7 @@ function init(){
       }
     }
 
-        var $categories = $('#categories'),
+    var $categories = $('#categories'),
         categoriesHtml = "";
     $.each(categories, function(i, category){
       // style="color: #' + category.color + ';"
