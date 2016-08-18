@@ -160,27 +160,14 @@
     <a id="downloadAnchorElem" style="display:none"></a>
 <style>
   #map { height: 580px; width: 70%; margin: 0 auto; }
-  .map-container { margin-top:  145px; padding-left: 25px; }
+  .map-container { padding-left: 25px; }
 
-@media only screen and (max-width: 1199px) { .map-container { margin-top: 200px;}}
+/* @media only screen and (max-width: 1199px) { .map-container { margin-top: 200px;}} */
 @media only screen and (max-width: 992px) { .filter-options { margin-top: 100px;}}
 
   #categories { float: left; list-style-type: none; padding-left: 0px; }
   @media (max-width: 991px) {
     #map { width: 100%; }
-    .filter-options {
-      position: absolute;
-      z-index: 1;
-      background-color: white;
-      max-height: 200px;
-      overflow-y: scroll;
-      top: 190px;
-      padding: 5px;
-      border: 1px solid grey;
-      padding: 13px 0 0 18px;
-    }
-    .map-container { margin-top: 210px; }
-    ul#categories { display: none;}
   }
   #categories li { padding: 3px 0;  }
   label { cursor: pointer; font-size: 12px; }
@@ -194,9 +181,12 @@
 <div class="map-container row">
   <div class="col-md-2 col-xs-10 col-xs-offset-1 filter-options">
     <div class="row">
-      <h4 class="filter-header col-md-8 col-xs-8">Filter Options</h4>
-      <!-- <i class="fa fa-chevron-down" aria-hidden="true"></i> -->
-      <a href="#" class="select-all col-md-4 col-xs-4">Check All</a>
+      <h4 class="filter-header col-md-8 col-xs-7">Filter Options</h4>
+      <a href="#" class="select-all col-md-4 col-xs-3">Check All</a>
+      <p class="col-xs-1 filter-options-group">
+        <i data-open="true" class="filter-options-toggle fa fa-chevron-down"></i>
+        <i style="display: none;" data-open="false" class="filter-options-toggle fa fa-chevron-up"></i>
+      </p>
     </div>
     <ul id="categories"></ul>
   </div>
@@ -252,6 +242,19 @@ function init(){
       ]
     });
 
+  var $categories = $('#categories');
+
+  $('.filter-options-toggle').on('click', function(e){
+    e.preventDefault();
+
+    var $el = $(this),
+        toOpen = $el.data().open;
+
+    (toOpen) ? $categories.show() : $categories.hide()
+    $('.filter-options-toggle').show();
+    $el.hide()
+  });
+
   $.get('/public/companies.json', function(companies){
 
     function iconPosition(i){
@@ -291,8 +294,6 @@ function init(){
             });
 
         markers.push(marker);
-
-        console.log(iconXPosition(categoryIndex));
 
         var html = "<div class='company-infowindow'><h5>" + company["Company Name"];
             html += "<span class='category-marker' style='background-position: -" + iconXPosition(categoryIndex) + "px -" + iconYPosition(categoryIndex) + "px;'>";
