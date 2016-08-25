@@ -205,16 +205,16 @@ function init(){
     var categories = [
         {name: "Banking", color: "3F88C5"},
         {name: "Capital Markets", color: "0F1D5D"},
-        {name: "Consulting", color: "85FF9E" },
+        {name: "Consulting", color: "43E865" },
         {name: "Data & Analytics", color: "159C39"},
-        {name: "Education", color: "A6F4DC"},
+        {name: "Education", color: "39E1AD"},
         {name: "Insurance", color: "8BBEB2"},
         {name: "Investment Management", color: "AF90A9"},
-        {name: "Investor", color: "FFFC31"},
+        {name: "Investor", color: "FFE800"},
         {name: "Lending", color: "DC135D"},
-        {name: "Media", color: "C2E755"},
+        {name: "Media", color: "A3D11F"},
         {name: "Organization", color: "E637BF"},
-        {name: "Payments", color: "E9EBF8"},
+        {name: "Payments", color: "7B87D4"},
         {name: "Service Provider", color: "FFBF00"},
         {name: "Technology", color: "DE6E4B"}
       ];
@@ -325,7 +325,7 @@ function init(){
 
       var newHtml = '<li><label class="filter-label" for="category_' + i + '">';
       newHtml += '<img class="unchecked" src="img/unchecked.svg" />';
-      newHtml += '<svg width="27px" height="27px" viewBox="0 0 27 27"><g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="checked" stroke="#292A2F"><ellipse id="Oval-22" fill-opacity="0.5" fill="#292A2F" cx="13.5016201" cy="13.5016201" rx="12.5016201" ry="12.5016201"></ellipse><polyline id="Path-2" points="8 13.25 12.3125 17.5 19.5 9"></polyline></g></g></svg>';
+      newHtml += '<svg width="27px" height="27px" viewBox="0 0 27 27"><g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="checked" stroke="#7B87D4"><ellipse id="Oval-22" fill-opacity="0.5" fill="#7B87D4" cx="13.5016201" cy="13.5016201" rx="12.5016201" ry="12.5016201"></ellipse><polyline id="Path-2" points="8 13.25 12.3125 17.5 19.5 9"></polyline></g></g></svg>';
       newHtml += '<input checked class="category-filter ng-hide" type="checkbox" value="' + category.name + '" id="category_' + i + '" />&nbsp;&nbsp;';
       newHtml += category.name + '&nbsp;(' + companyCount + ')</label></li>';
       var $newHtml = $(newHtml);

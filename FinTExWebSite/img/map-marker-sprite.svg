@@ -64,7 +64,7 @@
     <g id="Welcome" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="map-marker-sprite" stroke-width="2">
             <use id="Oval-2-Copy-14" stroke="#1D6098" mask="url(#mask-2)" fill="#3F88C5" xlink:href="#path-1"></use>
-            <use id="Oval-2-Copy-15" stroke="#E9E100" mask="url(#mask-4)" fill="#FFFC31" xlink:href="#path-3"></use>
+            <use id="Oval-2-Copy-15" stroke="#FFE800" mask="url(#mask-4)" fill="#FFF370" xlink:href="#path-3"></use>
             <use id="Oval-2-Copy-16" stroke="#3147AE" mask="url(#mask-6)" fill="#0F1D5D" xlink:href="#path-5"></use>
             <use id="Oval-2-Copy-17" stroke="#960037" mask="url(#mask-8)" fill="#DC135D" xlink:href="#path-7"></use>
             <use id="Oval-2-Copy-18" stroke="#43E965" mask="url(#mask-10)" fill="#85FF9E" xlink:href="#path-9"></use>
@@ -72,7 +72,7 @@
             <use id="Oval-2-Copy-20" stroke="#12792D" mask="url(#mask-14)" fill="#159C39" xlink:href="#path-13"></use>
             <use id="Oval-2-Copy-21" stroke="#AB0084" mask="url(#mask-16)" fill="#E637BF" xlink:href="#path-15"></use>
             <use id="Oval-2-Copy-22" stroke="#39E1AD" mask="url(#mask-18)" fill="#A6F4DC" xlink:href="#path-17"></use>
-            <use id="Oval-2-Copy-23" stroke="#A2A9D6" mask="url(#mask-20)" fill="#E9EBF8" xlink:href="#path-19"></use>
+            <use id="Oval-2-Copy-23" stroke="#7B87D4" mask="url(#mask-20)" fill="#BCC3F1" xlink:href="#path-19"></use>
             <use id="Oval-2-Copy-24" stroke="#5B998A" mask="url(#mask-22)" fill="#8BBEB2" xlink:href="#path-21"></use>
             <use id="Oval-2-Copy-25" stroke="#FFA621" mask="url(#mask-24)" fill="#FFBF00" xlink:href="#path-23"></use>
             <use id="Oval-2-Copy-26" stroke="#805D79" mask="url(#mask-26)" fill="#AF90A9" xlink:href="#path-25"></use>
