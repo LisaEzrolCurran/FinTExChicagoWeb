@@ -2,42 +2,49 @@
 
 (function () {
 
-	var app = angular.module('fintex', ['ui.router']);
+    var app = angular.module('fintex', ['ui.router']);
 
-	app.run(function($state, $rootScope) {
-		$rootScope.$state = $state;
-	});
+    app.run(function ($state, $rootScope) {
+ //       var interval = setInterval(function () {
+ //         if (doucment.readyState == "complete") {
+ //               window.scrollTo(0, 0);
+ //              clearInterval(interval);
+ //          }
+ //      }, 200);
+        $rootScope.$on('$viewContentLoaded', function () { window.scrollTo(0, 0); });
+        $rootScope.$state = $state;
+    });
 
-	app.config(function($stateProvider, $urlRouterProvider) {
+    app.config(function ($stateProvider, $urlRouterProvider) {
 
-		$urlRouterProvider.otherwise("/home");
-		
-		$stateProvider
+        $urlRouterProvider.otherwise("/home");
+
+        $stateProvider
 		//HOME
 		.state("home", {
-			url: "/home",
-			templateUrl: "./js/templates/homeTmpl.html"
-			// controller: "homeCtrl"
+		    url: "/home",
+		    templateUrl: "./js/templates/homeTmpl.html"
+		    // controller: "homeCtrl"
 		})
 
 		//MEMBERSHIP
 		.state("membership", {
-			url: "/membership",
-			templateUrl: "./js/templates/membershipTmpl.html"
-			// controller: "membershipCtrl"
+		    url: "/membership",
+		    templateUrl: "./js/templates/membershipTmpl.html"
+		    // controller: "membershipCtrl"
 		})
 
 		//MEMBERSHIP
 		.state("member-application", {
-			url: "/member-application",
-			templateUrl: "./js/templates/membershipApplicationTmpl.html"
-			// controller: "applicationCtrl"
+		    url: "/member-application",
+		    templateUrl: "./js/templates/membershipApplicationTmpl.html"
+		    // controller: "applicationCtrl"
 		})
 		//FINTECH CHICAGO
 		.state("fintech-chicago", {
-			url: "/fintech-chicago",
-			templateUrl: "./js/templates/fintechChicagoTmpl.html"
-			// controller: "fintechChicagoCtrl"
+		    url: "/fintech-chicago",
+		    templateUrl: "./js/templates/fintechChicagoTmpl.html"
+		    // controller: "fintechChicagoCtrl"
 		})
 
 
@@ -48,6 +55,34 @@
 		    templateUrl: "./js/templates/profile1Tmpl.html"
 		    // controller: "fintechChicagoCtrl"
 		})
+                //Halo
+		.state("HaloProfile", {
+		    url: "/HaloProfile",
+		    templateUrl: "./js/templates/HaloProfileTmpl.html"
+		    // controller: "fintechChicagoCtrl"
+		})
+
+            //Rippleshot
+		.state("RippleshotProfile", {
+		    url: "/RippleshotProfile",
+		    templateUrl: "./js/templates/RippleshotProfileTmpl.html"
+		    // controller: "fintechChicagoCtrl"
+		})
+
+        //Glidera
+		.state("GlideraProfile", {
+		    url: "/GlideraProfile",
+		    templateUrl: "./js/templates/GlideraProfileTmpl.html"
+		    // controller: "fintechChicagoCtrl"
+		})
+
+ //CHX
+		.state("CHXProfile", {
+		    url: "/CHXProfile",
+		    templateUrl: "./js/templates/CHXProfileTmpl.html"
+		    // controller: "fintechChicagoCtrl"
+		})
+
             //Dough
 		.state("DoughProfile", {
 		    url: "/DoughProfile",
@@ -143,28 +178,28 @@
 
 		//EVENTS
 		.state("events", {
-			url: "/events",
-			templateUrl: "./js/templates/eventsTmpl.html"
-			// controller: "eventsCtrl"
+		    url: "/events",
+		    templateUrl: "./js/templates/eventsTmpl.html"
+		    // controller: "eventsCtrl"
 		})
 		//ABOUT
 		.state("about", {
-			url: "/about",
-			templateUrl: "./js/templates/aboutTmpl.html"
-			// controller: "aboutCtrl"
+		    url: "/about",
+		    templateUrl: "./js/templates/aboutTmpl.html"
+		    // controller: "aboutCtrl"
 		})
 		//CONTACT
 		.state("contact", {
-			url: "/contact",
-			templateUrl: "./js/templates/contactTmpl.html"
-			// controller: "contactCtrl"
+		    url: "/contact",
+		    templateUrl: "./js/templates/contactTmpl.html"
+		    // controller: "contactCtrl"
 		})
 		//APPLICATION
 		.state("application", {
-			url: "/application",
-			templateUrl: "./js/templates/applicationTmpl.html"
-			// controller: "applicationCtrl"
+		    url: "/application",
+		    templateUrl: "./js/templates/applicationTmpl.html"
+		    // controller: "applicationCtrl"
 		});
-	});
+    });
 
 }());
