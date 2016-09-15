@@ -159,15 +159,17 @@
     <!-- UI VIEW -->
     <a id="downloadAnchorElem" style="display:none"></a>
 <style>
-  #map { height: 580px; width: 70%; margin: 0 auto; }
+  #map { height: 580px; width: 70%; margin: 0 auto; margin-top: 150px; }
   .map-container { padding-left: 25px; }
 
 /* @media only screen and (max-width: 1199px) { .map-container { margin-top: 200px;}} */
-@media only screen and (max-width: 992px) { .filter-options { margin-top: 100px;}}
+  @media only screen and (max-width: 992px) {
+    .filter-options { margin-top: 100px; }
+  }
 
   #categories { float: left; list-style-type: none; padding-left: 0px; }
   @media (max-width: 991px) {
-    #map { width: 100%; }
+    #map { width: 100%; margin: 0 auto; }
   }
   #categories li { padding: 3px 0;  }
   label { cursor: pointer; font-size: 12px; }
@@ -205,6 +207,7 @@ function init(){
     var categories = [
         {name: "Banking", color: "3F88C5"},
         {name: "Capital Markets", color: "0F1D5D"},
+        {name: "Capital Markets / Regulatory", color: ""},
         {name: "Consulting", color: "43E865" },
         {name: "Data & Analytics", color: "159C39"},
         {name: "Education", color: "39E1AD"},
@@ -215,6 +218,7 @@ function init(){
         {name: "Media", color: "A3D11F"},
         {name: "Organization", color: "E637BF"},
         {name: "Payments", color: "7B87D4"},
+        {name: "Payments / Blockchain", color: ""},
         {name: "Service Provider", color: "FFBF00"},
         {name: "Technology", color: "DE6E4B"}
       ];
@@ -368,7 +372,7 @@ function init(){
       $('.category-filter').prop("checked", true).trigger("change");
     })
 
-    // var markerCluster = new MarkerClusterer(map, markers, {gridSize: 70, maxZoom: 15, imagePath: '/img/m'});
+
   });
   // function sleep (time) {
   //   return new Promise((resolve) => setTimeout(resolve, time));
@@ -385,6 +389,8 @@ function init(){
   //           if (status == google.maps.GeocoderStatus.OK) {
   //             console.log(company["Company Name"])
   //             console.log({ "lat": results[0].geometry.location.lat(), "lng": results[0].geometry.location.lng() });
+  //             company.lat = results[0].geometry.location.lat();
+  //             company.lng = results[0].geometry.location.lng();
   //           }
   //         });
   //       }
@@ -395,17 +401,36 @@ function init(){
   //       geocode(companies, ++i);
   //     });
   //   } else {
-  //     // var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(companies));
-  //     // var dlAnchorElem = document.getElementById('downloadAnchorElem');
-  //     // dlAnchorElem.setAttribute("href", dataStr);
-  //     // dlAnchorElem.setAttribute("download", "scene.json");
-  //     // dlAnchorElem.click();
+  //     var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(companies));
+  //     var dlAnchorElem = document.getElementById('downloadAnchorElem');
+  //     dlAnchorElem.setAttribute("href", dataStr);
+  //     dlAnchorElem.setAttribute("download", "scene.json");
+  //     dlAnchorElem.click();
   //   }
   // }
 
   // $.get('/public/companies.json', function(companies){
   //   geocode(companies, 0);
   // })
+
+  // var newCompanies = [];
+
+  // $.get('/public/companies_new.json', function(new_companies){
+  //   $.get('/public/companies.json', function(companies){
+  //       $.each(new_companies, function(i, new_company){
+  //         var matchFound = false;
+  //         $.each(companies, function(j, company){
+  //           if (new_company["Company Name"] == company["Company Name"]){
+  //             matchFound = true;
+  //           }
+  //         });
+  //         if (!matchFound){
+  //           newCompanies.push(new_company);
+  //         }
+  //       });
+  //     geocode(newCompanies, 0);
+  //   });
+  // });
 
 }
 </script>

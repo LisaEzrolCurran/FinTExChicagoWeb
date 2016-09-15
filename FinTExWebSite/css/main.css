@@ -612,6 +612,7 @@ ul.home-about-text li, ul.app-form li {
         float: left;
         width: 70%;
         margin-bottom: 0;
+        display: none;
     }
 
     .col-md-2, .col-xs-10, .col-xs-offset-1, .filter-options {
@@ -619,7 +620,12 @@ ul.home-about-text li, ul.app-form li {
         padding-top: 35px;
         width: 30%;
         max-width: 300px;
+        padding-top: 150px;
     }
+
+.filter-options-group {
+    display: none;
+}
 
 .filter-header {
     color: #101f5b;
@@ -662,6 +668,9 @@ ul #categories {
 }
 
 @media only screen and (max-width: 991px) {
+    .filter-options-group {
+        display: block;
+    }
     .filter-options-toggle {
       display: block;
       cursor: pointer;
@@ -672,6 +681,7 @@ ul #categories {
         text-align: center;
         margin: 0 auto;
         padding-left: 0;
+        display: block;
     }
 
     .map-container {
