@@ -11,7 +11,7 @@
 	app.config(function($stateProvider, $urlRouterProvider) {
 
 		$urlRouterProvider.otherwise("/home");
-		
+
 		$stateProvider
 		//HOME
 		.state("home", {
@@ -38,6 +38,12 @@
 			url: "/fintech-chicago",
 			templateUrl: "./js/templates/fintechChicagoTmpl.html"
 			// controller: "fintechChicagoCtrl"
+		})
+
+		.state("map", {
+			url: "/map",
+			templateUrl: "./js/templates/map.html"
+			// controller: "applicationCtrl"
 		})
 
 
