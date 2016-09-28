@@ -119,12 +119,12 @@
 
 /* @media only screen and (max-width: 1199px) { .map-container { margin-top: 200px;}} */
   @media only screen and (max-width: 992px) {
-    .filter-options { margin-top: 100px; }
+    .filter-options { margin-top: 100px; overflow-x: hidden; }
   }
 
   #categories { float: left; list-style-type: none; padding-left: 0px; }
   @media (max-width: 991px) {
-    #map { width: 100%; margin: 0 auto; }
+    #map { width: 90%; margin: 0 auto; height: 500px;}
   }
   #categories li { padding: 3px 0;  }
   label { cursor: pointer; font-size: 12px; }
@@ -150,6 +150,57 @@
 <h4 class="map-header">FinTEx Chicago Business Community </h4>
   <div id="map" class="col-md-8 col-xs-12"></div>
 </div>
+<footer class="text-center">
+    <div class="footer-above">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col col-md-4">
+                    <h3>About FinTEx Chicago</h3>
+                    <p>FinTEx is a collaboration between leading players in financial services and technology to expand Chicago’s role as a center of innovation.</a>.</p>
+                </div>
+                <div class="footer-col col-md-4">
+                    <h3>Follow Us</h3>
+                    <ul class="list-inline">
+                        <!-- <li>
+
+                              <a href="https://twitter.com/FinTExChicago" class="btn-social btn-outline"><i class="fa fa-fw fa-facebook"></i></a>
+
+                         </li> -->
+                        <!-- <li>
+                             <a href="https://twitter.com/FinTExChicago" target="_blank" class="btn-social btn-outline"><i class="fa fa-fw fa-google-plus"></i></a>
+                         </li> -->
+
+                        <li>
+                            <a href="https://twitter.com/FinTExChicago" target="_blank" class="btn-social btn-outline"><i class="fa fa-fw fa-twitter"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/company/5402425?trk=prof-exp-company-name" target="_blank" class="btn-social btn-outline"><i class="fa fa-fw fa-linkedin"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-col col-md-4">
+                    <h3>Join our mailing list!</h3>
+                    <span class="subscribe-inputs">
+                        <input type="text" name="email" value="" required="required" class="subscribe-email" placeholder=" Your email address"></br></br>
+                        <button type="submit" class="btn btn-sm btn-outline">
+                            <a href="mailto:lisa@fintex.org?subject=Join FinTEx Email List
+                           &body=Please add me to FinTEx email list!">Subscribe!</a>
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-below">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    Copyright &copy; FinTEx Chicago 2016
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
 <script src="../libs/jquery.js"></script>
 <script>
 var map,
